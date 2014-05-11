@@ -11,7 +11,7 @@ package newrelic_go_api
 
 extern void statusCallbackCToGoProxy(int status);
 static void statusCallbackCGOProxy() {
-    nr_register_status_callback(statusCallbackCToGoProxy);
+    newrelic_register_status_callback(statusCallbackCToGoProxy);
 }
 */
 import "C"
