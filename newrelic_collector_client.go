@@ -45,7 +45,7 @@ func Init(license string, appName string) int {
 	cLanguageVersion := C.CString(runtime.Version())
 	defer C.free(unsafe.Pointer(cLanguageVersion))
 
-	result := C.nr_init(cLicense, cAppName, cLanguage, cLanguageVersion)
+	result := C.newrelic_init(cLicense, cAppName, cLanguage, cLanguageVersion)
 	return int(result)
 }
 
@@ -53,7 +53,7 @@ func RequestShutdown(reason string) int {
 	cReason := C.CString(reason)
 	defer C.free(unsafe.Pointer(cReason))
 
-	result := C.nr_request_shutdown(cReason)
+	result := C.newrelic_request_shutdown(cReason)
 	return int(result)
 }
 
@@ -73,5 +73,5 @@ func DefaultWebTransactionHandler(metricTableJson string) {
 	cMetricTableJson := C.CString(metricTableJson)
 	defer C.free(unsafe.Pointer(cMetricTableJson))
 
-	C.nr_default_web_transaction_handler(cMetricTableJson)
+	C.newrelic_message_handler(cMetricTableJson)
 }

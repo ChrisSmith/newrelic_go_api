@@ -10,7 +10,7 @@ package newrelic_go_api
 #include <newrelic_transaction.h> 
 #include <newrelic_collector_client.h> 
 static void setupEmbededCollectorCGOProxy() {
-    nr_setup_embedded_collector_client(nr_default_web_transaction_handler);
+    newrelic_register_message_handler(newrelic_message_handler);
 }
 
 */
@@ -36,7 +36,7 @@ const (
 )
 
 func StartWebTransaction() TTransactionId {
-	result := C.nr_start_web_transaction()
+	result := C.newrelic_transaction_begin()
 	return TTransactionId(result)
 }
 
@@ -44,12 +44,12 @@ func NameWebTransaction(transactionId TTransactionId, name string) int {
 	cName := C.CString(name)
 	defer C.free(unsafe.Pointer(cName))
 
-	result := C.nr_name_web_transaction(C.long(transactionId), cName)
+	result := C.newrelic_transaction_set_name(C.long(transactionId), cName)
 	return int(result)
 }
 
 func EndWebTransaction(transactionId TTransactionId) int {
-	result := C.nr_end_web_transaction(C.long(transactionId))
+	result := C.newrelic_transaction_end(C.long(transactionId))
 	return int(result)
 }
 
@@ -67,12 +67,12 @@ func StartDatastoreStatement(table string, operation string) TTransactionId {
 	cOperation := C.CString(operation)
 	defer C.free(unsafe.Pointer(cOperation))
 
-	result := C.nr_start_datastore_statement(cTable, cOperation)
+	result := C.newrelic_segment_datastore_begin(cTable, cOperation)
 	return TTransactionId(result)
 }
 
 func EndDatastoreStatement(transactionId TTransactionId) int {
-	result := C.nr_end_datastore_statement(C.long(transactionId))
+	result := C.newrelic_segment_end(C.long(transactionId))
 	return int(result)
 }
 

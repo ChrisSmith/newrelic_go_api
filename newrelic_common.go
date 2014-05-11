@@ -33,6 +33,8 @@ func SetupLogging(logLevel int, logFileName string) int {
 	cLogFileName := C.CString(logFileName)
 	defer C.free(unsafe.Pointer(cLogFileName))
 
-	result := C.nr_setup_logging(C.int(logLevel), cLogFileName)
-	return int(result)
+	// result := C.nr_setup_logging(C.int(logLevel), cLogFileName)
+	// return int(result)
+
+	return 0
 }
