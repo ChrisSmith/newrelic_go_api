@@ -35,7 +35,7 @@ func TestSqlTransactionSend(t *testing.T) {
 
 	seg := SegmentId(0)
 
-	seg := StartDatastoreStatement(webTrId, seg, "products", NR_DATASTORE_OPERATION_SELECT)
+	seg = StartDatastoreStatement(webTrId, seg, "products", NR_DATASTORE_OPERATION_SELECT)
 	if seg == 0 {
 		t.Errorf("StartDatastoreStatement failed. Return 0 transaction ID")
 	}
