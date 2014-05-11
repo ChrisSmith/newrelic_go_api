@@ -21,6 +21,7 @@ import (
 )
 
 type TTransactionId int64
+type SegmentId int64
 
 const (
 	NR_ERROR_CODE_OK                      = 0
@@ -53,12 +54,12 @@ func EndWebTransaction(transactionId TTransactionId) int {
 	return int(result)
 }
 
-func StartDatastoreStatement(table string, operation string) TTransactionId {
+func StartDatastoreStatement(tId TTransactionId, sId SegmentId, table string, operation string) SegmentId {
 	if operation != NR_DATASTORE_OPERATION_SELECT &&
 		operation != NR_DATASTORE_OPERATION_INSERT &&
 		operation != NR_DATASTORE_OPERATION_UPDATE &&
 		operation != NR_DATASTORE_OPERATION_DELETE {
-		return TTransactionId(0)
+		return SegmentId(0)
 	}
 
 	cTable := C.CString(table)
@@ -67,12 +68,15 @@ func StartDatastoreStatement(table string, operation string) TTransactionId {
 	cOperation := C.CString(operation)
 	defer C.free(unsafe.Pointer(cOperation))
 
-	result := C.newrelic_segment_datastore_begin(cTable, cOperation)
-	return TTransactionId(result)
+	cId := C.long(tId)
+	cSeg := C.long(sId)
+
+	result := C.newrelic_segment_datastore_begin(cId, sId, cTable, cOperation)
+	return SegmentId(result)
 }
 
-func EndDatastoreStatement(transactionId TTransactionId) int {
-	result := C.newrelic_segment_end(C.long(transactionId))
+func EndDatastoreStatement(transactionId TTransactionId, segmentId SegmentId) int {
+	result := C.newrelic_segment_end(C.long(transactionId), C.long(segmentId))
 	return int(result)
 }
 
