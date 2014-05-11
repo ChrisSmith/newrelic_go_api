@@ -33,7 +33,7 @@ func TestSqlTransactionSend(t *testing.T) {
 	webTrId := StartWebTransaction()
 	NameWebTransaction(webTrId, "Unit test SQL transaction")
 
-	seg := SegmentId{ 0 }
+	seg := SegmentId(0)
 
 	trId := StartDatastoreStatement(webTrId, seg, "products", NR_DATASTORE_OPERATION_SELECT)
 	if trId == 0 {
