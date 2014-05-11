@@ -44,7 +44,7 @@ func TestSqlTransactionSend(t *testing.T) {
 		t.Errorf("EndWebTransaction failed. Return code: %d", result)
 	}
 	EndWebTransaction(webTrId)
-	fmt.Printf("Send datastore statement with ID: %d, web tr ID:%d and wait for 60 seconds\n", trId, webTrId)
+	fmt.Printf("Send datastore statement with ID: %d, web tr ID:%d and wait for 60 seconds\n", seg, webTrId)
 
 	time.Sleep(70 * time.Second)
 
