@@ -35,12 +35,12 @@ func TestSqlTransactionSend(t *testing.T) {
 
 	seg := SegmentId(0)
 
-	trId := StartDatastoreStatement(webTrId, seg, "products", NR_DATASTORE_OPERATION_SELECT)
-	if trId == 0 {
+	seg := StartDatastoreStatement(webTrId, seg, "products", NR_DATASTORE_OPERATION_SELECT)
+	if seg == 0 {
 		t.Errorf("StartDatastoreStatement failed. Return 0 transaction ID")
 	}
 	time.Sleep(10 * time.Millisecond)
-	if result := EndDatastoreStatement(trId, seg); result != 0 {
+	if result := EndDatastoreStatement(webTrId, seg); result != 0 {
 		t.Errorf("EndWebTransaction failed. Return code: %d", result)
 	}
 	EndWebTransaction(webTrId)
