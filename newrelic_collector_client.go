@@ -73,5 +73,5 @@ func DefaultWebTransactionHandler(metricTableJson string) {
 	cMetricTableJson := C.CString(metricTableJson)
 	defer C.free(unsafe.Pointer(cMetricTableJson))
 
-	C.newrelic_message_handler(cMetricTableJson)
+	C.newrelic_message_handler(unsafe.Pointer(cMetricTableJson))
 }

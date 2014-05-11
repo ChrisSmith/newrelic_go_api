@@ -71,7 +71,7 @@ func StartDatastoreStatement(tId TTransactionId, sId SegmentId, table string, op
 	cId := C.long(tId)
 	cSeg := C.long(sId)
 
-	result := C.newrelic_segment_datastore_begin(cId, sId, cTable, cOperation)
+	result := C.newrelic_segment_datastore_begin(cId, cSeg, cTable, cOperation)
 	return SegmentId(result)
 }
 
